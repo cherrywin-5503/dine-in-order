@@ -1,0 +1,11 @@
+{
+  "name": "dine-in-order-desktop",
+  "version": "1.0.0",
+  "description": "店员端/店长端的电脑软件外壳（Electron）",
+  "main": "main.js",
+  "scripts": {
+    "staff": "electron . staff",
+    "manager": "electron . manager"
+  },
+  "devDependencies": { "electron": "^33.0.0" }
+}
