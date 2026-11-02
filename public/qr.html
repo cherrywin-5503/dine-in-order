@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="css/app.css">
+<title>店内统一点餐码</title>
+<style>.qrbox{text-align:center;padding:24px 12px}.qrbox img{width:min(80vw,320px);border:1px solid var(--line);border-radius:12px}@media print{.noprint{display:none}}</style>
+</head>
+<body>
+<header class="top noprint"><h1>点餐码</h1></header>
+<div class="qrbox"><h2>梅忧快餐 · 扫码点餐</h2><p class="muted">店内统一点餐码，不区分桌号。用手机扫码，选菜付款后凭取餐号取餐。</p>
+<img id="qr" alt="点餐二维码"><p id="url" class="muted"></p></div>
+<div class="card noprint"><b>手机访问不了？</b><p class="muted" style="margin:4px 0">1. 手机和电脑要连同一个 WiFi（或让电脑连手机热点）。<br>2. 下面是服务器检测到的地址，选一个能用的：</p><div id="list"></div>
+<p class="muted">店员端：<span id="staffu"></span><br>店长端：<span id="mgru"></span></p><button onclick="window.print()">打印此页</button></div>
+<script>
+(async () => {
+  const info = (await (await fetch('/api/info')).json()).data;
+  const urls = info.urls.length ? info.urls : [location.origin + '/'];
+  function show(u) {
+    document.getElementById('qr').src = '/api/qr?text=' + encodeURIComponent(u);
+    document.getElementById('url').textContent = u;
+    document.getElementById('staffu').textContent = u + 'staff.html';
+    document.getElementById('mgru').textContent = u + 'manager.html';
+  }
+  document.getElementById('list').innerHTML = urls.map((u, i) => `<label style="display:block"><input type="radio" name="u" style="width:auto" ${i === 0 ? 'checked' : ''} value="${u}"> ${u}</label>`).join('');
+  document.querySelectorAll('[name=u]').forEach((r) => r.onchange = () => show(r.value));
+  show(urls[0]);
+})();
+</script>
+</body>
+</html>

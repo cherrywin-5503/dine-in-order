@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="css/app.css">
+<title>入口导航 · 梅忧快餐</title>
+<style>
+.wrap{max-width:980px;margin:0 auto;padding:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.ent{text-align:center;margin:0}.ent img{width:200px;max-width:70%;border:1px solid var(--line);border-radius:10px;margin:8px 0}
+.ent h2{margin:4px 0}.ent .u{word-break:break-all;font-size:13px}
+</style>
+</head>
+<body>
+<header class="top"><h1>梅忧快餐 · 入口导航</h1></header>
+<div class="wrap">
+  <div class="card"><b>怎么用：</b>手机和电脑连同一个 WiFi，用手机相机（或微信）扫下面的码，打开后点浏览器的“分享 → 添加到主屏幕”。
+    <div style="margin-top:8px">地址（有多个时选能用的）：<span id="list"></span></div></div>
+  <div class="grid3" id="grid"></div>
+  <div class="card muted">这个页面只给开发和演示用。贴在店里给顾客扫的是左边“顾客点餐”的码，顾客扫了只会进入点餐页，看不到店员和店长的入口。</div>
+</div>
+<script>
+const ENTRIES = [
+  ['顾客点餐', '', '无需登录，扫码直接点餐', '店内统一点餐码'],
+  ['店员端', 'staff.html', '账号 staff1　密码 staff123', '接单、叫号、售罄、退款'],
+  ['店长端', 'manager.html', '账号 manager　密码 manager123', '菜品、统计、订单、异常'],
+];
+(async () => {
+  const info = (await (await fetch('/api/info')).json()).data;
+  const urls = info.urls.length ? info.urls : [location.origin + '/'];
+  function show(base) {
+    document.getElementById('grid').innerHTML = ENTRIES.map(([name, page, acc, desc]) => {
+      const u = base + page;
+      return `<div class="card ent"><h2>${name}</h2><div class="muted">${desc}</div>
+        <img src="/api/qr?text=${encodeURIComponent(u)}" alt="${name}二维码"><div class="u"><a href="${u}">${u}</a></div><div class="muted" style="margin-top:6px">${acc}</div></div>`;
+    }).join('');
+  }
+  document.getElementById('list').innerHTML = urls.map((u, i) => `<label style="margin-right:10px"><input type="radio" name="u" style="width:auto" ${i === 0 ? 'checked' : ''} value="${u}"> ${u}</label>`).join('');
+  document.querySelectorAll('[name=u]').forEach((r) => r.onchange = () => show(r.value));
+  show(urls[0]);
+})();
+</script>
+</body>
+</html>
