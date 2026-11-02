@@ -1,0 +1,13 @@
+{
+  "name": "dine-in-order",
+  "version": "1.0.0",
+  "description": "堂食扫码点单系统（快餐店）- 软件工程课程项目",
+  "main": "server.js",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js",
+    "reset": "node -e \"require('fs').rmSync('data/app.db',{force:true});require('fs').rmSync('data/app.db-wal',{force:true});require('fs').rmSync('data/app.db-shm',{force:true});console.log('数据库已清空，下次启动会重新建表并写入演示数据')\""
+  },
+  "license": "MIT"
+}
