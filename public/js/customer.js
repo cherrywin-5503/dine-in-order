@@ -222,7 +222,7 @@
         ${o.open_payment ? `<button class="primary" data-act="pay" style="width:100%;padding:12px;margin-bottom:8px">继续支付 ¥${yuan(o.open_payment.amount_fen)}</button>` : ''}
         ${o.can_addon ? `<button class="ghost" data-act="addon" style="width:100%;padding:12px;margin-bottom:8px">追加菜品</button>` : ''}
         <button class="ghost" data-go="#/menu" style="width:100%;padding:12px">${o.status === 'PENDING_PAY' || o.can_addon ? '返回菜单' : '再点一单'}</button>
-        <div class="muted" style="margin-top:10px;text-align:center">如需取消订单，请联系店员</div></div>`;
+        <div class="muted" style="margin-top:10px;text-align:center">如需取消订单，请到柜台联系店员</div></div>`;
     view.querySelector('[data-act="pay"]')?.addEventListener('click', async () => {
       const p = await call('POST', `/api/orders/${o.id}/pay`, {});
       if (p.code !== 0) { toast(p.message); return renderOrder(id); }
