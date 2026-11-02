@@ -1,5 +1,5 @@
 /* 三个页面共用的样式：手机优先，电脑上居中显示 */
-:root { --brand:#d9480f; --brand-d:#b83b0a; --bg:#faf6f0; --card:#fff; --text:#2b2b2b; --muted:#8a8a8a; --line:#eee6dc; --ok:#2b8a3e; --warn:#e67700; --bad:#c92a2a; }
+:root { --brand:#e8590c; --brand-d:#c94a09; --bg:#faf6f0; --card:#fff; --text:#2b2b2b; --muted:#8a8a8a; --line:#eee6dc; --ok:#2b8a3e; --warn:#e67700; --bad:#c92a2a; }
 * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html,body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; }
 body { max-width:720px; margin:0 auto; min-height:100vh; background:var(--bg); }
